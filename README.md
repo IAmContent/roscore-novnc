@@ -1,5 +1,6 @@
 # roscore-novnc
-A minimal Docker Composition that runs a ROS (Robot Operating System) _roscore_ process in a container that directs its output to a second, noVNC, container.
+A minimal Docker Composition that runs a ROS (Robot Operating System) _roscore_ process in a container that directs its output to a second container, which is running a noVNC server.
+
 This allows GUI programs that are launched in the ROS container to be viewed in a web browser.
 
 The composition comprises two Docker services:
