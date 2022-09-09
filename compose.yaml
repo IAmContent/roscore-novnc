@@ -1,5 +1,5 @@
 services:
-  roscore1:
+  roscore:
     image: osrf/ros:noetic-desktop-full
     command: roscore
     environment:
