@@ -8,11 +8,23 @@ The composition comprises two Docker services:
 1. A _ros:noetic-desktop-full_ image, running the _roscore_ process
 2. A _theasp/novnc:latest_ image that exposes its web UI on port 8080.
 
-## Use
+## Running it
 Open a terminal in the project root directory.
 
 To start the services: 
 > docker compose up --build -d
+
+## Alternatively, running it manually
+To run the same containers manually (witout using Docker Compose), first create the Docker network by running the folowing in a terminal:
+> docker network create x11
+
+Then start the noVNC container:
+> docker run -d --net=x11 --env="DISPLAY_WIDTH=3000" --env="DISPLAY_HEIGHT=1800" --env="RUN_XTERM=no" -p 8080:8080 theasp/novnc:latest
+
+Then start the ROS desktop container, running _roscore_:
+> docker run -d --net=x11 --env="DISPLAY=novnc:0.0" --name roscore osrf/ros:noetic-desktop-full roscore
+
+## Using it
 
 To connect a bash terminal to the ROS service:
 > docker compose exec -it roscore bash
@@ -27,6 +39,8 @@ Then, for example, to run rviz in the bash shell:
 
 Open the UI in a browser at http://localhost:8080/vnc.html , changing _localhost_ to your server name or IP address if you have deployed to a different host.
 
+
+## References
 See: 
 
 * https://hub.docker.com/r/theasp/novnc
