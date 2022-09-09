@@ -1,0 +1,24 @@
+services:
+  roscore1:
+    image: osrf/ros:noetic-desktop-full
+    command: roscore
+    environment:
+      - DISPLAY=novnc:0.0
+    networks:
+      - x11
+      - ros1
+    depends_on:
+      - novnc
+  novnc:  
+    image: theasp/novnc:latest
+    environment:
+      - DISPLAY_WIDTH=3000
+      - DISPLAY_HEIGHT=1800
+      - RUN_XTERM=no
+    ports:
+      - "8080:8080"
+    networks:
+      - x11
+networks:
+  x11:
+  ros1:
