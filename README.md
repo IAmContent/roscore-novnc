@@ -32,3 +32,7 @@ See:
 * https://wiki.ros.org/docker/Tutorials
 
 Inspired by https://github.com/nebohq/mac-ros
+
+## License
+
+This software (excluding the software on which it depends) is published under the [MIT License](https://opensource.org/licenses/MIT).
