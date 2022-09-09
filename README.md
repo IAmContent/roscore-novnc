@@ -1,6 +1,6 @@
 # roscore-novnc
 A minimal Docker Composition that runs a ROS (Robot Operating System) _roscore_ process in a container that directs its output to a second, noVNC, container.
-This allows GUI programs that are launched in the ROS conmtainer to be viewed in a web browser.
+This allows GUI programs that are launched in the ROS container to be viewed in a web browser.
 
 The composition comprises two Docker services:
 
@@ -21,7 +21,7 @@ Note that the _roscore_ in the last command is the name of the Docker service wi
 Then, in the bash shell, to initialise the ROS environment:
 > source ros_entrypoint.sh 
 
-Then for example, to run rviz in the bash shell:
+Then, for example, to run rviz in the bash shell:
 > rosrun rviz rviz
 
 Open the UI in a browser at http://localhost:8080/vnc.html , changing _localhost_ to your server name or IP address if you have deployed to a different host.
