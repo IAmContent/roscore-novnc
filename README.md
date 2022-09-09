@@ -24,7 +24,7 @@ Then, in the bash shell, to initialise the ROS environment:
 Then for example, to run rviz in the bash shell:
 > rosrun rviz rviz
 
-Open the UI in a browser at http://localhost:8080/vnc.html
+Open the UI in a browser at http://localhost:8080/vnc.html , changing _localhost_ to your server name or IP address if you have deployed to a different host.
 
 See: 
 
