@@ -1,5 +1,5 @@
 # roscore-novnc
-A minimal Docker Composition that runs a ROS (Robot Operating System) _roscore_ process in a container, directing its DISPLAY to a a noVNC server, running in a second container.
+A minimal Docker Composition that runs a ROS (Robot Operating System) _roscore_ process in a container, directing its DISPLAY to a noVNC server, running in a second container.
 
 This allows GUI programs that are launched in the ROS container to be viewed in a web browser.
 
@@ -8,34 +8,85 @@ The composition comprises two Docker services:
 1. A _ros:noetic-desktop-full_ image, running the _roscore_ process
 2. A _theasp/novnc:latest_ image that exposes its web UI on port 8080.
 
-## Running it
+## Using Docker Compose 
+### Running it
 Open a terminal in the project root directory.
 
-To start the services: 
-> docker compose up --build -d
+To start the services:
+```
+docker compose up --build -d
+```
 
-## Alternatively, running it manually
+### Using it
+
+To connect a bash terminal to the ROS service:
+```
+docker compose exec -it roscore bash
+```
+
+Note that _roscore_ in the last command is the name of the Docker service within the composition.
+
+A more Docker-like approach would be to run bash in a new container on the same Docker network and direct its DISPLAY to the noVNC server:
+```
+docker run -it --net=roscore-novnc_x11 --env="DISPLAY=novnc:0.0" --env="ROS_MASTER_URI=http://roscore:11311" osrf/ros:noetic-desktop-full bash
+```
+
+Note that _roscore-novnc_x11_ in the last command is the compound name of the _x11_ Docker network within the _roscore-novnc_ composition. Also note that _roscore_ in the last command is the name of the Docker service within the composition.
+
+Then, in the bash shell, to initialise the ROS environment:
+```
+source ros_entrypoint.sh 
+```
+
+Then, for example, to run rviz in the bash shell:
+```
+rosrun rviz rviz
+```
+
+Open the UI in a browser at http://localhost:8080/vnc.html , changing _localhost_ to your server name or IP address if you have deployed to a different host.
+
+
+## Alternatively, using plain Docker (without compose)
+### Running it
 To run the same containers manually (witout using Docker Compose), first create the Docker network by running the folowing in a terminal:
-> docker network create x11
+```
+docker network create x11
+```
 
 Then start the noVNC container:
-> docker run -d --net=x11 --env="DISPLAY_WIDTH=3000" --env="DISPLAY_HEIGHT=1800" --env="RUN_XTERM=no" -p 8080:8080 theasp/novnc:latest
+```
+docker run -d --net=x11 --env="DISPLAY_WIDTH=3000" --env="DISPLAY_HEIGHT=1800" --env="RUN_XTERM=no" -p 8080:8080 theasp/novnc:latest
+```
 
 Then start the ROS desktop container, running _roscore_:
-> docker run -d --net=x11 --env="DISPLAY=novnc:0.0" --name roscore osrf/ros:noetic-desktop-full roscore
+```
+docker run -d --net=x11 --env="DISPLAY=novnc:0.0" --name roscore osrf/ros:noetic-desktop-full roscore
+```
 
 ## Using it
 
 To connect a bash terminal to the ROS service:
-> docker compose exec -it roscore bash
+```
+docker exec -it roscore bash
+```
+Note that _roscore_ in the last command is the name of the Docker service within the composition.
 
-Note that the _roscore_ in the last command is the name of the Docker service within the composition.
+A more Docker-like approach would be to run bash in a new container on the same Docker network and direct its DISPLAY to the noVNC server:
+```
+docker run -it --net=x11 --env="DISPLAY=novnc:0.0" --env="ROS_MASTER_URI=http://roscore:11311" osrf/ros:noetic-desktop-full bash
+```
+
+Note that _roscore_ in the last command is the name of the Docker service within the composition.
 
 Then, in the bash shell, to initialise the ROS environment:
-> source ros_entrypoint.sh 
+```
+source ros_entrypoint.sh 
+```
 
 Then, for example, to run rviz in the bash shell:
-> rosrun rviz rviz
+```
+rosrun rviz rviz
+```
 
 Open the UI in a browser at http://localhost:8080/vnc.html , changing _localhost_ to your server name or IP address if you have deployed to a different host.
 
