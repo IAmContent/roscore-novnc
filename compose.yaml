@@ -6,7 +6,7 @@ services:
       - DISPLAY=novnc:0.0
     networks:
       - x11
-      - ros1
+      - ros
     depends_on:
       - novnc
   novnc:  
@@ -21,4 +21,4 @@ services:
       - x11
 networks:
   x11:
-  ros1:
+  ros:
