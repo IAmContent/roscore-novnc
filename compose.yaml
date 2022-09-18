@@ -5,7 +5,6 @@ services:
     environment:
       - DISPLAY=novnc:0.0
     networks:
-      - x11
       - ros
     depends_on:
       - novnc
@@ -18,7 +17,6 @@ services:
     ports:
       - "8080:8080"
     networks:
-      - x11
+      - ros
 networks:
-  x11:
   ros:

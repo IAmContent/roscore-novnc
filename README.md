@@ -28,10 +28,10 @@ Note that _roscore_ in the last command is the name of the Docker service within
 
 A more Docker-like approach would be to run bash in a new container on the same Docker network and direct its DISPLAY to the noVNC server:
 ```
-docker run -it --net=roscore-novnc_x11 --env="DISPLAY=novnc:0.0" --env="ROS_MASTER_URI=http://roscore:11311" osrf/ros:noetic-desktop-full bash
+docker run -it --net=roscore-novnc_ros --env="DISPLAY=novnc:0.0" --env="ROS_MASTER_URI=http://roscore:11311" osrf/ros:noetic-desktop-full bash
 ```
 
-Note that _roscore-novnc_x11_ in the last command is the compound name of the _x11_ Docker network within the _roscore-novnc_ composition. Also note that _roscore_ in the last command is the name of the Docker service within the composition.
+Note that _roscore-novnc_ros_ in the last command is the compound name of the _ros_ Docker network within the _roscore-novnc_ composition. Also note that _roscore_ in the last command is the name of the Docker service within the composition.
 
 Then, in the bash shell, to initialise the ROS environment:
 ```
@@ -50,17 +50,17 @@ Open the UI in a browser at http://localhost:8080/vnc.html , changing _localhost
 ### Running it
 To run the same containers manually (witout using Docker Compose), first create the Docker network by running the folowing in a terminal:
 ```
-docker network create x11
+docker network create ros
 ```
 
 Then start the noVNC container:
 ```
-docker run -d --net=x11 --env="DISPLAY_WIDTH=3000" --env="DISPLAY_HEIGHT=1800" --env="RUN_XTERM=no" -p 8080:8080 theasp/novnc:latest
+docker run -d --net=ros --env="DISPLAY_WIDTH=3000" --env="DISPLAY_HEIGHT=1800" --env="RUN_XTERM=no" -p 8080:8080 theasp/novnc:latest
 ```
 
 Then start the ROS desktop container, running _roscore_:
 ```
-docker run -d --net=x11 --env="DISPLAY=novnc:0.0" --name roscore osrf/ros:noetic-desktop-full roscore
+docker run -d --net=ros --env="DISPLAY=novnc:0.0" --name roscore osrf/ros:noetic-desktop-full roscore
 ```
 
 ## Using it
@@ -73,7 +73,7 @@ Note that _roscore_ in the last command is the name of the Docker service within
 
 A more Docker-like approach would be to run bash in a new container on the same Docker network and direct its DISPLAY to the noVNC server:
 ```
-docker run -it --net=x11 --env="DISPLAY=novnc:0.0" --env="ROS_MASTER_URI=http://roscore:11311" osrf/ros:noetic-desktop-full bash
+docker run -it --net=ros --env="DISPLAY=novnc:0.0" --env="ROS_MASTER_URI=http://roscore:11311" osrf/ros:noetic-desktop-full bash
 ```
 
 Note that _roscore_ in the last command is the name of the Docker service within the composition.
