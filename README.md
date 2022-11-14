@@ -55,7 +55,7 @@ docker network create ros
 
 Then start the noVNC container:
 ```
-docker run -d --net=ros --env="DISPLAY_WIDTH=3000" --env="DISPLAY_HEIGHT=1800" --env="RUN_XTERM=no" -p 8080:8080 theasp/novnc:latest
+docker run -d --net=ros --env="DISPLAY_WIDTH=3000" --env="DISPLAY_HEIGHT=1800" --env="RUN_XTERM=no" --name=novnc -p 8080:8080 theasp/novnc:latest
 ```
 
 Then start the ROS desktop container, running _roscore_:
